@@ -19,7 +19,7 @@ RUN apt-get update && \
       make \
       nodejs \
       patch \
-      libmysqlclient-dev \
+      default-libmysqlclient-dev \
       wget && \
 # Install Dradis
     cd /opt && \
