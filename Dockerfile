@@ -3,7 +3,7 @@ FROM ruby:2.3-slim
 ENV RAILS_ENV=development \
     APT_ARGS="-y --no-install-recommends --no-upgrade -o Dpkg::Options::=--force-confnew"
 
-# Copy ENTRYPOINT script
+# Copy initial configurations and scripts
 ADD docker-entrypoint.sh /entrypoint.sh
 
 RUN apt-get update && \
@@ -20,13 +20,17 @@ RUN apt-get update && \
       patch \
       default-libmysqlclient-dev \
       wget && \
-# Install Dradis
+# Fetch Dradis
     cd /opt && \
-    git clone https://github.com/dradis/dradis-ce.git && \
-    cd dradis-ce/ && \
+    git clone https://github.com/dradis/dradis-ce.git
+
+ADD Gemfile.plugins /opt/dradis-ce/Gemfile.plugins
+
+RUN cd /opt/dradis-ce/ && \
     ruby bin/setup && \
+# Install Dradis and Plugins:
     bundle install && \
-# Entrypoint:
+# Setup Entrypoint:
     chmod +x /entrypoint.sh && \
 # Create dradis user:
     groupadd -r dradis-ce && \
