@@ -22,10 +22,11 @@ RUN apt-get update && \
       wget && \
 # Install Dradis
     cd /opt && \
-    git clone https://github.com/dradis/dradis-ce.git && \
+    git clone -b release-3.12 https://github.com/dradis/dradis-ce.git && \
     cd dradis-ce/ && \
     ruby bin/setup && \
     bundle install && \
+#    exec bundle exec rake resque:work && \
 # Entrypoint:
     chmod +x /entrypoint.sh && \
 # Create dradis user:
@@ -41,12 +42,10 @@ RUN apt-get update && \
       libsqlite3-dev \
       make \
       patch \
-      default-libmysqlclient-dev \
       wget && \
     DEBIAN_FRONTEND=noninteractive \
     apt-get install $APT_ARGS \
-      libsqlite3-0  \
-      libmysqlclient18 && \
+      libsqlite3-0 && \
     DEBIAN_FRONTEND=noninteractive \
     apt-get autoremove -y && \
     rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/* && \
