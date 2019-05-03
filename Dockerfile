@@ -26,7 +26,6 @@ RUN apt-get update && \
     cd dradis-ce/ && \
     ruby bin/setup && \
     bundle install && \
-#    exec bundle exec rake resque:work && \
 # Entrypoint:
     chmod +x /entrypoint.sh && \
 # Create dradis user:
