@@ -1,6 +1,6 @@
 FROM ruby:2.3-slim
 
-ENV RAILS_ENV=production \
+ENV RAILS_ENV=development \
     APT_ARGS="-y --no-install-recommends --no-upgrade -o Dpkg::Options::=--force-confnew"
 
 # Copy ENTRYPOINT script
@@ -22,7 +22,7 @@ RUN apt-get update && \
       wget && \
 # Install Dradis
     cd /opt && \
-    git clone -b release-3.12 https://github.com/dradis/dradis-ce.git && \
+    git clone https://github.com/dradis/dradis-ce.git && \
     cd dradis-ce/ && \
     ruby bin/setup && \
     bundle install && \
@@ -49,6 +49,7 @@ RUN apt-get update && \
     apt-get autoremove -y && \
     rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/* && \
     rm -f /dbdata/production.sqlite3 && \
+    rm -f /dbdata/development.sqlite3 && \
     mv templates templates_orig && \
     mkdir -p templates && \
     chown -R dradis-ce:dradis-ce templates
