@@ -5,7 +5,6 @@ ENV RAILS_ENV=production \
 
 # Copy ENTRYPOINT script
 ADD docker-entrypoint.sh /entrypoint.sh
-ADD production.patch /production.patch
 
 RUN apt-get update && \
 # Install requirements
@@ -26,7 +25,7 @@ RUN apt-get update && \
     git clone https://github.com/dradis/dradis-ce.git && \
     cd dradis-ce/ && \
     ruby bin/setup && \
-    bundle exec rails server && \
+    bundle install && \
 # Entrypoint:
     chmod +x /entrypoint.sh && \
 # Create dradis user:
