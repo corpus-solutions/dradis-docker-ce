@@ -19,7 +19,7 @@ RUN apt-get update && \
       make \
       nodejs \
       patch \
-      libmysqlclient-dev \
+      default-libmysqlclient-dev \
       wget && \
 # Install Dradis
     cd /opt && \
@@ -44,7 +44,7 @@ RUN apt-get update && \
       libsqlite3-dev \
       make \
       patch \
-      libmysqlclient-dev \
+      default-libmysqlclient-dev \
       wget && \
     DEBIAN_FRONTEND=noninteractive \
     apt-get install $APT_ARGS \
