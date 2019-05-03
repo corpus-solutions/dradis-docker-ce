@@ -24,11 +24,9 @@ RUN apt-get update && \
 # Install Dradis
     cd /opt && \
     git clone https://github.com/dradis/dradis-ce.git && \
-    cd dradis-ce && \
-    patch -p1 -i /production.patch && \
+    cd dradis-ce/ && \
     ruby bin/setup && \
-    bundle exec rake assets:precompile && \
-    sed -i 's@database:\s*db@database: /dbdata@' /opt/dradis-ce/config/database.yml &&\
+    bundle exec rails server && \
 # Entrypoint:
     chmod +x /entrypoint.sh && \
 # Create dradis user:
@@ -44,7 +42,7 @@ RUN apt-get update && \
       libsqlite3-dev \
       make \
       patch \
-      libmysqlclient-dev \
+      default-libmysqlclient-dev \
       wget && \
     DEBIAN_FRONTEND=noninteractive \
     apt-get install $APT_ARGS \
